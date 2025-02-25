@@ -26,10 +26,7 @@ import {
 } from "@angular/forms";
 
 // ANGULAR MATERIAL
-import { MatLegacyTabChangeEvent as MatTabChangeEvent, MatLegacyTabGroup as MatTabGroup } from "@angular/material/legacy-tabs";
 import { ThemePalette } from "@angular/material/core";
-import { MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef } from "@angular/material/legacy-dialog";
-import { MatLegacyFormFieldAppearance as MatFormFieldAppearance } from "@angular/material/legacy-form-field";
 
 // ANGULAR FIRE
 import { AngularFireAuth } from "@angular/fire/compat/auth";
@@ -53,6 +50,9 @@ import {
 } from "../../services/auth-process.service";
 import { NgxAuthFirebaseuiAnimations } from "../../animations";
 import { NgxAuthFirebaseUIConfigToken } from "../../tokens";
+import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
+import { MatFormFieldAppearance } from '@angular/material/form-field';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: "ngx-auth-firebaseui",
@@ -188,7 +188,7 @@ export class AuthComponent
 
   constructor(
     // eslint-disable-next-line @typescript-eslint/ban-types
-    @Inject(PLATFORM_ID) private platformId: Object,
+    @Inject(PLATFORM_ID) private platformId: object,
     @Inject(forwardRef(() => NgxAuthFirebaseUIConfigToken))
     public config: NgxAuthFirebaseUIConfig,
     public auth: AngularFireAuth,
@@ -349,7 +349,7 @@ export class AuthComponent
     }
   }
 
-  async signUpAnonymously() {
+  async signUpAnonymously(): Promise<void> {
     try {
       this.isLoading = true;
       this.changeDetectorRef.markForCheck();

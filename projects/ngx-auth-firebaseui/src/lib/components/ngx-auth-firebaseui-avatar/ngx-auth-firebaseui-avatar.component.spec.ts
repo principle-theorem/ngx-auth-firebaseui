@@ -1,19 +1,15 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import {NgxAuthFirebaseuiAvatarComponent} from './ngx-auth-firebaseui-avatar.component';
-import {
-  MAT_DIALOG_DATA,
-  MatButtonModule,
-  MatDialogModule,
-  MatDialogRef,
-  MatIconModule,
-  MatMenuModule,
-  MatTooltipModule
-} from '@angular/material';
 import {AngularFireAuth} from '@angular/fire/compat/auth';
 import {AngularFireModule} from '@angular/fire/compat';
 import {AngularFireAuthStub} from '../../tests/helper';
 import {RouterTestingModule} from '@angular/router/testing';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 
 describe('NgxAuthFirebaseuiAvatarComponent', () => {
   let component: NgxAuthFirebaseuiAvatarComponent;

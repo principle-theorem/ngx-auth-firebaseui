@@ -1,11 +1,14 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import {LegalityDialogComponent} from './legality-dialog.component';
-import {MAT_DIALOG_DATA, MatButtonModule, MatCheckboxModule, MatDialogModule, MatDialogRef, MatIconModule} from '@angular/material';
 
 import {FormsModule} from '@angular/forms';
 import {DebugElement} from '@angular/core';
 import {getButtonById} from '../../tests/helper';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 
 describe('LegalityDialogComponent', () => {
   let component: LegalityDialogComponent;

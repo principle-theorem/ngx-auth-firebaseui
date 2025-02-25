@@ -1,9 +1,4 @@
-import '@firebase/auth';
-
 import { EventEmitter, forwardRef, Inject, Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { MAT_LEGACY_SNACK_BAR_DEFAULT_OPTIONS as MAT_SNACK_BAR_DEFAULT_OPTIONS, MatLegacySnackBar as MatSnackBar, MatLegacySnackBarConfig as MatSnackBarConfig } from '@angular/material/legacy-snack-bar';
-import firebase from 'firebase/compat/app';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
@@ -11,18 +6,20 @@ import { Accounts } from '../enums';
 import { ICredentials, ISignInProcess, ISignUpProcess, NgxAuthFirebaseUIConfig } from '../interfaces';
 import { NgxAuthFirebaseUIConfigToken } from '../tokens';
 import { FirestoreSyncService } from './firestore-sync.service';
+import { createUserWithEmailAndPassword, FacebookAuthProvider, getAuth, GithubAuthProvider, GoogleAuthProvider, OAuthProvider, sendEmailVerification, TwitterAuthProvider, updateProfile, User, UserCredential, UserInfo } from "firebase/auth";
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 
-import UserCredential = firebase.auth.UserCredential;
 
-export const facebookAuthProvider = new firebase.auth.FacebookAuthProvider();
-export const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
-export const appleAuthProvider = new firebase.auth.OAuthProvider("apple.com");
-export const twitterAuthProvider = new firebase.auth.TwitterAuthProvider();
-export const githubAuthProvider = new firebase.auth.GithubAuthProvider();
-export const microsoftAuthProvider = new firebase.auth.OAuthProvider(
+export const facebookAuthProvider = new FacebookAuthProvider();
+export const googleAuthProvider = new GoogleAuthProvider();
+export const appleAuthProvider = new OAuthProvider("apple.com");
+export const twitterAuthProvider = new TwitterAuthProvider();
+export const githubAuthProvider = new GithubAuthProvider();
+export const microsoftAuthProvider = new OAuthProvider(
   "microsoft.com"
 );
-export const yahooAuthProvider = new firebase.auth.OAuthProvider("yahoo.com");
+export const yahooAuthProvider = new OAuthProvider("yahoo.com");
 
 export enum AuthProvider {
   ALL = "all",
@@ -47,15 +44,15 @@ export class AuthProcessService implements ISignInProcess, ISignUpProcess {
 
   // Useful to know about auth state even between reloads.
   // Replace emailConfirmationSent and emailToConfirm.
-  private _user$ = new BehaviorSubject<firebase.User | null>(null);
-  get user$(): Observable<firebase.User | null> {
+  private _user$ = new BehaviorSubject<User | null>(null);
+  get user$(): Observable<User | null> {
     return this._user$.asObservable();
   }
 
   /**
    * @deprecated access via user$ asynchronously instead
    */
-  user: firebase.User;
+  user: User;
 
   messageOnAuthSuccess: string;
   messageOnAuthError: string;
@@ -77,7 +74,7 @@ export class AuthProcessService implements ISignInProcess, ISignUpProcess {
   ) {}
 
   listenToUserEvents() {
-    this.afa.user.subscribe((user: firebase.User | null) => {
+    this.afa.user.subscribe((user: User | null) => {
       this._user$.next(user);
       this.user = user;
     });
@@ -111,56 +108,56 @@ export class AuthProcessService implements ISignInProcess, ISignUpProcess {
 
       switch (provider) {
         case AuthProvider.ANONYMOUS:
-          signInResult = (await this.afa.signInAnonymously()) as UserCredential;
+          signInResult = (await this.afa.signInAnonymously());
           break;
 
         case AuthProvider.EmailAndPassword:
           signInResult = (await this.afa.signInWithEmailAndPassword(
             credentials.email,
             credentials.password
-          )) as UserCredential;
+          ));
           break;
 
         case AuthProvider.Google:
           signInResult = (await this.afa.signInWithPopup(
             googleAuthProvider
-          )) as UserCredential;
+          ));
           break;
 
         case AuthProvider.Apple:
           signInResult = (await this.afa.signInWithPopup(
             appleAuthProvider
-          )) as UserCredential;
+          ));
           break;
 
         case AuthProvider.Facebook:
           signInResult = (await this.afa.signInWithPopup(
             facebookAuthProvider
-          )) as UserCredential;
+          ));
           break;
 
         case AuthProvider.Twitter:
           signInResult = (await this.afa.signInWithPopup(
             twitterAuthProvider
-          )) as UserCredential;
+          ));
           break;
 
         case AuthProvider.Github:
           signInResult = (await this.afa.signInWithPopup(
             githubAuthProvider
-          )) as UserCredential;
+          ));
           break;
 
         case AuthProvider.Microsoft:
           signInResult = (await this.afa.signInWithPopup(
             microsoftAuthProvider
-          )) as UserCredential;
+          ));
           break;
 
         case AuthProvider.Yahoo:
           signInResult = (await this.afa.signInWithPopup(
             yahooAuthProvider
-          )) as UserCredential;
+          ));
           break;
 
         case AuthProvider.PhoneNumber:
@@ -188,7 +185,8 @@ export class AuthProcessService implements ISignInProcess, ISignUpProcess {
    */
   public async signUp(displayName: string, credentials: ICredentials) {
     try {
-      const userCredential: UserCredential = await this.afa.createUserWithEmailAndPassword(
+      const app = await this.afa.app;
+      const userCredential = await createUserWithEmailAndPassword(getAuth(app),
         credentials.email,
         credentials.password
       );
@@ -201,11 +199,11 @@ export class AuthProcessService implements ISignInProcess, ISignUpProcess {
           displayName,
           email: user.email,
           photoURL: user.photoURL,
-        } as firebase.User);
+        } as User);
       }
 
       if (this.config.enableEmailVerification) {
-        await user.sendEmailVerification();
+        await sendEmailVerification(user);
       }
 
       // Legacy fields
@@ -222,7 +220,7 @@ export class AuthProcessService implements ISignInProcess, ISignUpProcess {
     if (!this.user) {
       return Promise.reject(new Error("No signed in user"));
     }
-    return this.user.sendEmailVerification();
+    return sendEmailVerification(this.user);
   }
 
   async signOut() {
@@ -242,16 +240,16 @@ export class AuthProcessService implements ISignInProcess, ISignUpProcess {
    * @returns -
    */
   public updateProfile(name: string, photoURL: string): Promise<void> {
-    return this.afa.currentUser.then((user: firebase.User) => {
+    return this.afa.currentUser.then((user: User) => {
       if (!photoURL) {
-        return user.updateProfile({ displayName: name });
+        return updateProfile(user, { displayName: name });
       } else {
-        return user.updateProfile({ displayName: name, photoURL });
+        return updateProfile(user, { displayName: name, photoURL });
       }
     });
   }
 
-  public parseUserInfo(user: firebase.User): firebase.UserInfo {
+  public parseUserInfo(user: User): UserInfo {
     return {
       uid: user.uid,
       displayName: user.displayName,
@@ -265,7 +263,7 @@ export class AuthProcessService implements ISignInProcess, ISignUpProcess {
 
   public getUserPhotoUrl(): Observable<string | null> {
     return this._user$.pipe(
-      map((user: firebase.User | null) => {
+      map((user: User | null) => {
         if (!user) {
           return null;
         } else if (user.photoURL) {
@@ -325,7 +323,7 @@ export class AuthProcessService implements ISignInProcess, ISignUpProcess {
   reloadUserInfo() {
     return this._user$
       .pipe(take(1))
-      .subscribe((user: firebase.User | null) => user && user.reload());
+      .subscribe((user: User | null) => user && user.reload());
   }
 
   // Search for an error message.

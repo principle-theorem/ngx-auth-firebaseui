@@ -50,20 +50,20 @@
     "test:watch": "../../node_modules/.bin/jest --coverage --watch"
   },
   "peerDependencies": {
-    "@angular/common": "^15.x",
-    "@angular/core": "^15.x",
-    "@angular-material-extensions/password-strength": "^12.x",
-    "@angular/animations": "^15.x",
-    "@angular/cdk": "^15.0.0",
-    "@angular/fire": "^7.x",
+    "@angular/common": "^17.x",
+    "@angular/core": "^17.x",
+    "@angular-material-extensions/password-strength": "^16.x",
+    "@angular/animations": "^17.x",
+    "@angular/cdk": "^17.0.0",
+    "@angular/fire": "^17.x",
     "@angular/flex-layout": "^15.0.0-beta.42",
-    "@angular/forms": "^15.x",
-    "@angular/material": "^15.0.0",
-    "@angular/router": "^15.x",
-    "firebase": "^9.x"
+    "@angular/forms": "^17.x",
+    "@angular/material": "^17.0.0",
+    "@angular/router": "^17.x",
+    "firebase": "^10.x"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=18"
   },
   "release-it": {
     "git": {

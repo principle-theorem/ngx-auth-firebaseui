@@ -16,6 +16,7 @@ import { AuthProcessService } from "../../services/auth-process.service";
 import { FirestoreSyncService } from "../../services/firestore-sync.service";
 import { map, take } from "rxjs/operators";
 import { Observable } from "rxjs";
+import { updateEmail, updatePhoneNumber, updateProfile } from 'firebase/auth';
 
 @Component({
   selector: "ngx-auth-firebaseui-user",
@@ -109,19 +110,19 @@ export class UserComponent {
 
       try {
         if (this.updateNameFormControl.dirty) {
-          await user.updateProfile({
+          await updateProfile(user, {
             displayName: this.updateNameFormControl.value,
           });
           snackBarMsg.push(`your name has been updated to ${user.displayName}`);
         }
 
         if (this.updateEmailFormControl.dirty) {
-          await user.updateEmail(this.updateEmailFormControl.value);
+          await updateEmail(user, this.updateEmailFormControl.value);
           snackBarMsg.push(`your email has been updated to ${user.email}`);
         }
 
         if (this.updatePhoneNumberFormControl.dirty) {
-          await user.updatePhoneNumber(this.updatePhoneNumberFormControl.value);
+          await updatePhoneNumber(user, this.updatePhoneNumberFormControl.value);
           console.log(
             "phone number = ",
             this.updatePhoneNumberFormControl.value

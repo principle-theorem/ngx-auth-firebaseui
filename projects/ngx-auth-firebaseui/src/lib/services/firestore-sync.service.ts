@@ -3,7 +3,7 @@ import {
   AngularFirestore,
   AngularFirestoreDocument,
 } from "@angular/fire/compat/firestore";
-import firebase from "firebase/compat/app";
+import { UserInfo } from 'firebase/auth';
 
 export const collections = {
   users: "users",
@@ -23,23 +23,23 @@ export class FirestoreSyncService {
 
   public getUserDocRefByUID(
     uid: string
-  ): AngularFirestoreDocument<firebase.UserInfo> {
+  ): AngularFirestoreDocument<UserInfo> {
     return this.afs.doc(`${collections.users}/${uid}`);
   }
 
   public deleteUserData(uid: string): Promise<any> {
-    const userRef: AngularFirestoreDocument<firebase.UserInfo> = this.getUserDocRefByUID(
+    const userRef: AngularFirestoreDocument<UserInfo> = this.getUserDocRefByUID(
       uid
     );
     return userRef.delete();
   }
 
-  public updateUserData(user: firebase.UserInfo): Promise<any> {
+  public updateUserData(user: UserInfo): Promise<any> {
     // Sets user$ data to firestore on login
-    const userRef: AngularFirestoreDocument<firebase.UserInfo> = this.getUserDocRefByUID(
+    const userRef: AngularFirestoreDocument<UserInfo> = this.getUserDocRefByUID(
       user.uid
     );
-    const data: firebase.UserInfo = {
+    const data: UserInfo = {
       uid: user.uid,
       email: user.email,
       displayName: user.displayName,

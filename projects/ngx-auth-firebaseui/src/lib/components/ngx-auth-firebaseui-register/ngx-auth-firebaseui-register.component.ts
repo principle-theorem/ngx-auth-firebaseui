@@ -1,15 +1,15 @@
-import {Component, EventEmitter, forwardRef, Inject, Input, OnDestroy, OnInit, Output, PLATFORM_ID, ViewEncapsulation} from '@angular/core';
-import {AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
-import {Subject, Subscription} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import { Component, EventEmitter, forwardRef, Inject, Input, OnDestroy, OnInit, Output, PLATFORM_ID, ViewEncapsulation } from '@angular/core';
+import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { Subject, Subscription } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
-import {NgxAuthFirebaseuiAnimations} from '../../animations';
-import {AuthProcessService} from '../../services/auth-process.service';
-import {isPlatformBrowser} from '@angular/common';
-import {MatFormFieldAppearance} from '@angular/material/form-field';
-import {ThemePalette} from '@angular/material/core';
-import { NgxAuthFirebaseUIConfigToken } from '../../tokens';
+import { isPlatformBrowser } from '@angular/common';
+import { ThemePalette } from '@angular/material/core';
+import { MatFormFieldAppearance } from '@angular/material/form-field';
+import { NgxAuthFirebaseuiAnimations } from '../../animations';
 import { NgxAuthFirebaseUIConfig } from '../../interfaces';
+import { AuthProcessService } from '../../services/auth-process.service';
+import { NgxAuthFirebaseUIConfigToken } from '../../tokens';
 
 export const confirmPasswordValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
   if (!control.parent || !control) {

@@ -3,7 +3,6 @@ import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 
-import {MatButtonModule, MatCardModule, MatIconModule, MatInputModule, MatSnackBarModule, MatTooltipModule} from '@angular/material';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AngularFireModule} from '@angular/fire/compat';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
@@ -14,6 +13,12 @@ import {NgxAuthFirebaseUIConfigToken, UserProvidedConfigToken} from '../../ngx-a
 import {ngxAuthFirebaseUIConfigFactory} from '../../interfaces/config.interface';
 import {AuthProcessService} from '../../services/auth-process.service';
 import {FirestoreSyncService} from '../../services/firestore-sync.service';
+import { MatCardModule } from '@angular/material/card';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('UserComponent', () => {
   let component: UserComponent;

@@ -6,8 +6,6 @@ import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {ReactiveFormsModule} from '@angular/forms';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
-import {MatButtonModule, MatCheckboxModule, MatDialogModule, MatIconModule, MatInputModule, MatSnackBarModule} from '@angular/material';
-
 import {AngularFireModule} from '@angular/fire/compat';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {AngularFireAuth} from '@angular/fire/compat/auth';
@@ -19,6 +17,12 @@ import {NgxAuthFirebaseUIConfigToken, UserProvidedConfigToken} from '../../../mo
 
 import {AngularFireAuthStub, FirestoreStub} from '../../tests/helper';
 import {ngxAuthFirebaseUIConfigFactory} from '../../interfaces/config.interface';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 describe('NgxAuthFirebaseuiRegisterComponent', () => {

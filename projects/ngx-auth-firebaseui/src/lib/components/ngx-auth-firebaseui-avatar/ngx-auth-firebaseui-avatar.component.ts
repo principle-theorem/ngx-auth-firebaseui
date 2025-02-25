@@ -68,7 +68,7 @@ export class NgxAuthFirebaseuiAvatarComponent implements OnInit {
     if (!displayName) {
       return null;
     }
-    const initialsRegExp: RegExpMatchArray = displayName.match(/\b\w/g) || [];
+    const initialsRegExp = displayName.match(/\b\w/g) || [];
     const initials = (
       (initialsRegExp.shift() || "") + (initialsRegExp.pop() || "")
     ).toUpperCase();

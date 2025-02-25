@@ -7,7 +7,6 @@ import {RouterModule} from '@angular/router';
 import {FlexLayoutModule} from '@angular/flex-layout';
 // @angular/fire
 import {FIREBASE_APP_NAME, FIREBASE_OPTIONS} from '@angular/fire/compat';
-import {FirebaseOptions} from '@firebase/app-types';
 import {AngularFireAuthModule} from '@angular/fire/compat/auth';
 import {AngularFirestoreModule} from '@angular/fire/compat/firestore';
 // @angular/material
@@ -26,7 +25,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatTooltipModule} from '@angular/material/tooltip';
 
-import {MatPasswordStrengthModule} from '@angular-material-extensions/password-strength';
+import { MatPasswordStrengthModule } from '@angular-material-extensions/password-strength';
 
 
 import {NgxAuthFirebaseuiLoginComponent} from './components/ngx-auth-firebaseui-login/ngx-auth-firebaseui-login.component';
@@ -49,6 +48,7 @@ import {LoggedInGuard} from './guards/logged-in.guard';
 import {FirestoreSyncService} from './services/firestore-sync.service';
 import {AuthProcessService} from './services/auth-process.service';
 import {NgxAuthFirebaseUIConfigToken, UserProvidedConfigToken} from './tokens';
+import { FirebaseOptions } from 'firebase/app';
 // interfaces
 // ###################################################################################################
 // Export module's public API
